@@ -1,35 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
+[RequireComponent(typeof(Collider2D))]
 public class playerLives : MonoBehaviour
 {
     public int lives = 3;
     public Image[] livesUI;
     public GameObject explosionPrefab;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.collider.gameObject.tag == "Enemy")
+        if (collision.gameObject.CompareTag("Enemy"))
         {
-            Destroy(collision.collider.gameObject);
+            Destroy(collision.gameObject);
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-
             lives -= 1;
-            for(int i=0; i < livesUI.Length; i++)
+            for (int i = 0; i < livesUI.Length; i++)
             {
                 if (i < lives)
                 {
@@ -40,7 +34,7 @@ public class playerLives : MonoBehaviour
                     livesUI[i].enabled = false;
                 }
             }
-            if(lives <= 0)
+            if (lives <= 0)
             {
                 Destroy(gameObject);
             }
